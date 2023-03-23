@@ -38,7 +38,7 @@ const _Title = styled.span`
 
 const _Wrapper = styled.div`
   display: flex;
-  height: 100vh;
+  height: 100%;
   justify-content: center;
 `;
 
