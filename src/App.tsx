@@ -1,10 +1,14 @@
-import { Route, Routes } from "react-router/dist/lib/components";
+import { GlobalProvider } from "./style/Provider";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <Routes>
-      <Route path="ingame" element={<div />} />
-    </Routes>
+    <GlobalProvider>
+      hello guy
+      <Routes>
+        <Route path="ingame" element={<div>공백</div>} />
+      </Routes>
+    </GlobalProvider>
   );
 }
 
