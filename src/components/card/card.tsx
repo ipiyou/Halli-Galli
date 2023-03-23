@@ -3,14 +3,18 @@ import {
   ActionType,
   rotateCard,
   Fruit,
-  FruitType,
   position,
   transCount,
+  Locationtype,
+  locationCard,
+  DirectionType,
 } from "./constant";
 
-type DirectionType = keyof typeof rotateCard;
+interface DirectionPropsType {
+  direction: DirectionType;
+}
 
-interface PropsType {
+export interface CardType {
   count?: 1 | 2 | 3 | 4 | 5;
   kind?: keyof typeof Fruit;
   direction?: DirectionType;
@@ -20,17 +24,32 @@ export const Card = ({
   count = 1,
   kind = "plum",
   direction = "top",
-}: PropsType) => {
+}: CardType) => {
   return (
-    <_Wrapper direction={direction}>
-      {transCount[count].map((action: ActionType) => (
-        <_Fruit src={Fruit[kind]} location={position[action]} />
-      ))}
-    </_Wrapper>
+    <_CardWrapper direction={direction}>
+      <_Wrapper direction={direction}>
+        {transCount[count].map((action: ActionType) => (
+          <_Fruit src={Fruit[kind]} location={position[action]} />
+        ))}
+      </_Wrapper>
+    </_CardWrapper>
   );
 };
 
-const _Wrapper = styled.div<{ direction: DirectionType }>`
+const _CardWrapper = styled.div<DirectionPropsType>`
+  position: absolute;
+  ${({ direction }) => {
+    const { top, left, right, bottom } = locationCard[direction];
+    return css`
+      left: ${left};
+      top: ${top};
+      right: ${right};
+      bottom: ${bottom};
+    `;
+  }}
+`;
+
+const _Wrapper = styled.div<DirectionPropsType>`
   position: relative;
   width: 150px;
   height: 210px;
@@ -39,16 +58,16 @@ const _Wrapper = styled.div<{ direction: DirectionType }>`
   rotate: ${({ direction }) => rotateCard[direction]}deg;
 `;
 
-const _Fruit = styled.img<FruitType>`
+const _Fruit = styled.img<{ location: Locationtype }>`
   width: 70px;
   height: 70px;
   position: absolute;
   ${({ location }) => {
-    const [x, y] = location;
-    console.log(x, y);
+    const { top, left, right } = location;
     return css`
-      left: ${x}px;
-      top: ${y}px;
+      left: ${left}px;
+      right: ${right}px;
+      top: ${top}px;
     `;
   }}
 `;

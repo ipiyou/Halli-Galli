@@ -1,9 +1,5 @@
 import { Banana, Lime, Plum, StrawBerry } from "../../assets/img";
 
-export interface FruitType {
-  location: Locationtype;
-}
-
 export type ActionType =
   | "center"
   | "rightTop"
@@ -11,7 +7,14 @@ export type ActionType =
   | "leftTop"
   | "leftBottom";
 
-export type Locationtype = [number, number];
+export type DirectionType = "top" | "right" | "bottom" | "left";
+
+export type Locationtype = {
+  top?: string;
+  left?: string;
+  bottom?: string;
+  right?: string;
+};
 
 export const transCount: { [i: number]: ActionType[] } = {
   1: ["center"],
@@ -22,11 +25,18 @@ export const transCount: { [i: number]: ActionType[] } = {
 };
 
 export const position: { [i in ActionType]: Locationtype } = {
-  leftTop: [0, 10],
-  rightTop: [80, 10],
-  center: [40, 70],
-  leftBottom: [0, 130],
-  rightBottom: [80, 130],
+  leftTop: { left: "0", top: "10" },
+  rightTop: { top: "10", right: "0" },
+  center: { top: "70", left: "40" },
+  leftBottom: { left: "0", top: "130" },
+  rightBottom: { right: "0", top: "130" },
+};
+
+export const locationCard: { [i in DirectionType]: Locationtype } = {
+  left: { top: "285", left: "0" },
+  right: { top: "285", right: "0" },
+  bottom: { bottom: "0", left: "335" },
+  top: { top: "0", left: "335" },
 };
 
 export const Fruit = {
@@ -37,8 +47,8 @@ export const Fruit = {
 };
 
 export const rotateCard = {
-  top: 0,
-  right: 90,
-  bottom: 180,
-  left: 270,
+  top: 180,
+  right: 270,
+  bottom: 0,
+  left: 90,
 };
