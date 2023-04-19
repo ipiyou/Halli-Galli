@@ -1,15 +1,19 @@
 import styled from "styled-components";
 import { Bell, InGameBack } from "../assets/img";
 import { Card } from "../components/card/card";
+import { useOrderCard } from "../hooks/useOrderCard";
+import { useRandomCard } from "../hooks/useRandomCard";
+import { useEffect } from "react";
 
 export const InGame = () => {
+  const [] = useOrderCard();
+  const [state, current, next] = useRandomCard();
   return (
     <_Wrapper>
       <_Content>
-        <Card count={5} kind="banana" direction="top" />
-        <Card count={2} kind="strawBerry" direction="right" />
-        <Card count={3} kind="lime" direction="left" />
-        <Card count={4} kind="plum" direction="bottom" />
+        {state.map(({ count, kind, direction }, idx) => (
+          <Card count={count} kind={kind} direction={direction} />
+        ))}
         <_Bell src={Bell} />
       </_Content>
     </_Wrapper>
@@ -23,7 +27,7 @@ const _Wrapper = styled.div`
   justify-content: center;
   background-image: url(${InGameBack});
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: 100% 100%;
 `;
 
 const _Content = styled.div`

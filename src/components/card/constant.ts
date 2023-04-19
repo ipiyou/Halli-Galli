@@ -7,7 +7,9 @@ export type ActionType =
   | "leftTop"
   | "leftBottom";
 
-export type DirectionType = "top" | "right" | "bottom" | "left";
+export type DirectionType = keyof typeof rotateCard;
+
+export type FruitType = keyof typeof Fruit;
 
 export type Locationtype = {
   top?: string;

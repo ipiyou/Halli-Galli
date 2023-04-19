@@ -15,8 +15,8 @@ interface DirectionPropsType {
 }
 
 export interface CardType {
-  count?: 1 | 2 | 3 | 4 | 5;
-  kind?: keyof typeof Fruit;
+  count: number;
+  kind: keyof typeof Fruit;
   direction?: DirectionType;
 }
 
