@@ -11,8 +11,14 @@ export const InGame = () => {
   return (
     <_Wrapper>
       <_Content>
-        {state.map(({ count, kind, direction }, idx) => (
-          <Card count={count} kind={kind} direction={direction} />
+        {state.map(({ count, key, kind, direction }, idx) => (
+          <Card
+            key={key}
+            count={count}
+            kind={kind}
+            direction={direction}
+            zIndex={idx === 4 && current % 5 ? 6 : 5 - idx}
+          />
         ))}
         <_Bell src={Bell} />
       </_Content>
