@@ -24,13 +24,13 @@ export const useScore = () => {
     setUser(newData(user));
 
   const increase = (changeScore: number, changeTime: number) => {
-    const score = user.score * changeScore;
-    const time = user.time > 0.5 ? user.time - changeTime : 0.5;
-    setUser({ ...user, score, time });
+    const score = (user.score || 100) * changeScore;
+    const time = user.time > 1 ? user.time - changeTime : 1;
+    setUser(() => ({ ...user, score, time: time > 2 ? 2 : time }));
   };
   const decrease = (changeHeart: 1 | 2) => {
     const heart = user.heart - changeHeart;
-    setUser({ ...user, heart });
+    setUser(() => ({ ...user, heart }));
   };
   return { user, reStartData, setData, increase, decrease };
 };

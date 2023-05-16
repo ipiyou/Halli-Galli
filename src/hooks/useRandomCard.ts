@@ -8,7 +8,7 @@ interface CardType {
   direction: "bottom" | "right" | "top" | "left";
 }
 
-const rand = (min: number, max: number) => {
+export const rand = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
@@ -49,7 +49,6 @@ export const useRandomCard = () => {
     temp.unshift(nextItem);
     if (temp.length >= 6) temp.pop();
     setState(temp);
-    if (temp.length >= 5) temp.pop();
     return temp;
   };
 
@@ -59,7 +58,7 @@ export const useRandomCard = () => {
   };
 
   const next = () => {
-    const temp = nextOrder();
+    const temp = nextOrder().slice(0,4);
     setFive(isFiveFruit(temp));
     setCurrent(current + 1);
   };

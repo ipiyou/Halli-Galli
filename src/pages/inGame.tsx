@@ -5,23 +5,33 @@ import { useRandomCard } from "../hooks/useRandomCard";
 import { useEffect } from "react";
 import { Heart } from "../assets/svg";
 import { useScore } from "../hooks/useScore";
+import { useBot } from "../hooks/useBot";
 
 export const InGame = () => {
   const { state, isFive, current, next, clear } = useRandomCard();
   const { user, reStartData, increase, decrease } = useScore();
+  const { bot, clickBell, botClick } = useBot(user.time);
 
   useEffect(() => {
     const actionId = setTimeout(() => {
       next();
+      increase(1, 0.15);
     }, user.time * 1000);
+    const reStartNextGame = () => {
+      clearTimeout(actionId);
+      clear();
+    };
+    botClick(isFive, reStartNextGame);
+
     const spaceBarDown = (e: KeyboardEvent) => {
       if (e.key === " " && isFive) {
-        increase(2, 0.1);
-        clear();
-        if (isFive) clearTimeout(actionId);
+        increase(2, -1);
+        clickBell(0);
+      } else {
+        decrease(2);
       }
+      reStartNextGame();
     };
-    console.log(user)
     document.addEventListener("keydown", spaceBarDown);
     return () => document.removeEventListener("keydown", spaceBarDown);
   }, [state]);
@@ -42,11 +52,16 @@ export const InGame = () => {
         <_BoardWrapper>
           <_Board>name: ipiyou</_Board>
           <_Board>
-            <Heart />
-            <Heart />
-            <Heart />
-            <Heart />
-            <Heart />
+            {Array(Math.floor(user.heart / 2))
+              .fill(0)
+              .map(() => (
+                <Heart />
+              ))}
+            {Array(user.heart % 2)
+              .fill(0)
+              .map(() => (
+                <Heart />
+              ))}
           </_Board>
           <_Board>score: {user.score}</_Board>
         </_BoardWrapper>
